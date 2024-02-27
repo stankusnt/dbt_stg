@@ -26,7 +26,8 @@ select
     hipmisuseevent,
     trialtype,
     upper([user]) as [user],
-    weeknum,
+    weeknum as week,
+    cast(substring(weeknum, len(weeknum)-1, len(weeknum)) as int) as weeknum,
     concat(upper([user]), '.', weeknum) as userweek,
     (
         datediff(
