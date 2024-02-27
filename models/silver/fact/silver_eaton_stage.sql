@@ -10,7 +10,7 @@ eaton_hourly as (
 select
     trial_type as trialtype,
     [totalcapturedsec] = count([Activity]),
-    [totalactivitymin] = cast(sum(try_cast([Activity] as numeric)) as numeric),
+    [totalactivitymin] = cast(sum(try_cast([Activity] as decimal(5,2))) as numeric),
     [avgleft] = try_cast(avg(left_lbf) as numeric),
     [maxleft] = max(left_lbf),
     [minleft] = min(left_lbf),
