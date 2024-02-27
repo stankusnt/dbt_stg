@@ -1,0 +1,8 @@
+version: 2
+
+sources:
+  - name: raw_wh  # A logical name for the source
+    database: STG  # The database where the source resides
+    schema: dbo  # The schema where the source resides
+    tables:
+      - name: eatonalaysisWH  # The name of the table or view
