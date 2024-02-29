@@ -4,7 +4,7 @@ eaton_hourly as (
 *,
     cast(dateadd(hour, datediff(hour, 0, [datetime]), 0) as datetime2(1))
         as truncatedhour
-    from {{ source("raw_wh", "eatonalaysisWH") }}
+    from {{ ref('silver_eaton_raw') }} 
 )
 
 select
