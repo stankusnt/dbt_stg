@@ -4,13 +4,14 @@ eaton_hourly as (
 *,
     cast(dateadd(hour, datediff(hour, 0, [datetime]), 0) as datetime2(1))
         as truncatedhour
-    from {{ ref('silver_eaton_raw') }} 
+    from {{ ref('silver_eaton_raw') }}
 )
 
 select
     trial_type as trialtype,
-    [totalcapturedsec] = count([Activity]),
-    [totalactivitymin] = cast(sum(try_cast([Activity] as decimal(5,2))) as numeric),
+    [totalcapturedsec] = count([activity]),
+    [totalactivitymin]
+    = cast(sum(try_cast([activity] as decimal(5, 2))) as numeric),
     [avgleft] = try_cast(avg(left_lbf) as numeric),
     [maxleft] = max(left_lbf),
     [minleft] = min(left_lbf),
@@ -35,7 +36,7 @@ select
     [rightmisuseevent] = sum(right_misuse_flag),
     [hipmisuseevent] = sum(hip_misuse_flag),
     [week] as weeknum,
-    [User] as [user],
+    [user] as [user],
     truncatedhour
 from eaton_hourly
-group by [truncatedhour], trial_type, [User], [week]
+group by [truncatedhour], trial_type, [user], [week]
