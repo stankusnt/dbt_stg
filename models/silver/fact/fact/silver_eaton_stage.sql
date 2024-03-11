@@ -2,7 +2,7 @@ with
 eaton_hourly as (
     select
 *,
-    cast(dateadd(hour, datediff(hour, 0, [datetime]), 0) as datetime2(1))
+    cast(dateadd(hour, datediff(hour, 0, datetime), 0) as timestamp)
         as truncatedhour
     from {{ ref('silver_eaton_raw') }}
 )

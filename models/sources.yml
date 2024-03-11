@@ -1,8 +1,9 @@
 version: 2
 
 sources:
-  - name: dev_wh  # A logical name for the source
-    database: dev  # The database where the source resides
-    schema: stage  # The schema where the source resides
+  - name: dev_wh  
+    database: dev 
+    schema: stage 
     tables:
-      - name: eaton_analysis  # The name of the table or view
+      - name: eaton_stage 
+      - name: eaton_start_times
