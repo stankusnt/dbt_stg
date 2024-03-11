@@ -1,8 +1,9 @@
 version: 2
 
 sources:
-  - name: raw_wh  # A logical name for the source
-    database: STG  # The database where the source resides
-    schema: dbo  # The schema where the source resides
+  - name: dev_wh  
+    database: dev 
+    schema: stage 
     tables:
-      - name: eatonalaysisWH  # The name of the table or view
+      - name: eaton_stage 
+      - name: eaton_start_times
