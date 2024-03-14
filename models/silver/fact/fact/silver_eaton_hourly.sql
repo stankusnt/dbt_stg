@@ -1,6 +1,6 @@
 select
     totalcapturedsec,
-    totalactivitymin,
+    (totalactivitysec*60) as totalactivitymin,
     avgleft,
     maxleft,
     minleft,
@@ -12,29 +12,22 @@ select
     maxhipd,
     minhipd,
     hipthresh,
-    avgleftlat,
-    maxleftlat,
-    minleftlat,
-    avgrightlat,
-    maxrightlat,
-    minrightlat,
-    avghiplat,
-    maxhiplat,
-    minhiplat,
     leftmisuseevent,
     rightmisuseevent,
     hipmisuseevent,
+    totalmisuseevent,
     trialtype,
-    upper([user]) as [user],
-    weeknum as week,
-    cast(substring(weeknum, len(weeknum)-1, len(weeknum)) as int) as weeknum,
-    concat(upper([user]), '.', weeknum) as userweek,
+    upper(user) as user,
+    try_cast(substring(user, len(user)-1, len(user)) as int) as usernum,
+    week,
+    try_cast(substring(week, len(week)-1, len(week)) as int) as weeknum,
+    concat(upper(user), '.', week) as userweek,
     (
         datediff(
             day,
-            max(cast(truncatedhour as date)) over (partition by weeknum, user),
-            min(cast(truncatedhour as date)) over (partition by weeknum, user)
+            max(cast(truncatedhour as date)) over (partition by week, user),
+            min(cast(truncatedhour as date)) over (partition by week, user)
         )
     ) as daynum,
-    cast(truncatedhour as datetime2(0)) as truncatedhour
+    truncatedhour
 from {{ ref('silver_eaton_stage') }}

@@ -2,41 +2,32 @@ with
 eaton_hourly as (
     select
 *,
-    cast(dateadd(hour, datediff(hour, 0, datetime), 0) as timestamp)
+    date_trunc('hour', user_timestamp)
         as truncatedhour
-    from {{ ref('silver_eaton_raw') }}
+    from {{ ref('silver_eaton') }}
 )
 
 select
     trial_type as trialtype,
-    [totalcapturedsec] = count([activity]),
-    [totalactivitymin]
-    = cast(sum(try_cast([activity] as decimal(5, 2))) as numeric),
-    [avgleft] = try_cast(avg(left_lbf) as numeric),
-    [maxleft] = max(left_lbf),
-    [minleft] = min(left_lbf),
-    [avgright] = try_cast(avg(right_lbf) as numeric),
-    [maxright] = max(right_lbf),
-    [minright] = min(left_lbf),
-    [forcethresh] = avg(force_threshold),
-    [avghipd] = avg(hip_distance),
-    [maxhipd] = max(hip_distance),
-    [minhipd] = min(hip_distance),
-    [hipthresh] = avg(hip_distance_threshold),
-    [avgleftlat] = avg(left_latency_sec),
-    [maxleftlat] = max(left_latency_sec),
-    [minleftlat] = min(left_latency_sec),
-    [avgrightlat] = avg(right_latency_sec),
-    [maxrightlat] = max(right_latency_sec),
-    [minrightlat] = min(right_latency_sec),
-    [avghiplat] = avg(hip_latency_sec),
-    [maxhiplat] = max(hip_latency_sec),
-    [minhiplat] = min(hip_latency_sec),
-    [leftmisuseevent] = sum(left_misuse_flag),
-    [rightmisuseevent] = sum(right_misuse_flag),
-    [hipmisuseevent] = sum(hip_misuse_flag),
-    [week] as weeknum,
-    [user] as [user],
+    count(1) as totalcapturedsec,
+    CAST(SUM(activity_sec) AS NUMERIC) AS totalactivitysec,
+    TRY_CAST(AVG(left_lbf) AS NUMERIC) AS avgleft,
+    MAX(left_lbf) AS maxleft,
+    MIN(left_lbf) AS minleft,
+    TRY_CAST(AVG(right_lbf) AS NUMERIC) AS avgright,
+    MAX(right_lbf) AS maxright,
+    MIN(right_lbf) AS minright,
+    AVG(force_threshold) AS forcethresh,
+    AVG(hip_distance) AS avghipd,
+    MAX(hip_distance) AS maxhipd,
+    MIN(hip_distance) AS minhipd,
+    AVG(hip_distance_threshold) AS hipthresh,
+    SUM(left_misuse_flag) AS leftmisuseevent,
+    SUM(right_misuse_flag) AS rightmisuseevent,
+    SUM(hip_misuse_flag) AS hipmisuseevent,
+    SUM(total_misuse_flag) AS totalmisuseevent,
+    week as week,
+    TRIM(user) as user,
     truncatedhour
 from eaton_hourly
-group by [truncatedhour], trial_type, [user], [week]
+group by truncatedhour, trial_type, user, week

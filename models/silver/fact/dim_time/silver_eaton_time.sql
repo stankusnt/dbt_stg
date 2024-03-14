@@ -1,2 +1,5 @@
-SELECT *
-FROM {{ source('dev_wh', 'eaton_stage_time') }}
+SELECT 
+    user_timestamp,
+    session_timestamp,
+    current_timestamp() AS lastupdated
+FROM {{ ref('silver_eaton')}}

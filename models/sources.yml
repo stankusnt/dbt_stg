@@ -5,5 +5,4 @@ sources:
     database: dev 
     schema: stage 
     tables:
-      - name: eaton_stage 
-      - name: eaton_start_times
+      - name: eaton_stage
