@@ -11,3 +11,15 @@ SELECT
         cast(substring(week, len(week)-1, len(week)) as int)) AS user_week_key,
     current_timestamp() AS lastupdated
 FROM {{ ref('silver_eaton')}}
+GROUP BY 
+    user,
+    device,
+    week,
+    trial_type,
+    fsr_length_adjustment,
+    concat(user, concat('.', week)),
+    cast(substring(user, 2, len(user)) AS int),
+    cast(substring(week, len(week)-1, len(week)) as int),
+    concat(cast(substring(user, 2, len(user)) AS int),
+        cast(substring(week, len(week)-1, len(week)) as int)),
+    current_timestamp()
