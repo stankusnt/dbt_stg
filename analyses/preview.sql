@@ -1,2 +1,2 @@
 SELECT *
-FROM {{ref('gold_eaton_hourly')}}
+FROM {{ref('gold_fact_hourly')}}

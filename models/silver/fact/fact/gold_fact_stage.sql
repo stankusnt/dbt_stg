@@ -1,6 +1,5 @@
 
 select
-    session_timestamp,
     left_misuse_flag,
     right_misuse_flag,
     hip_misuse_flag,
@@ -20,11 +19,19 @@ select
     baseline_right_adc,
     left_adc_change,
     right_adc_change,
-    d.user_week_key,
-    f.file_key
-from {{ ref('silver_eaton')}} e
-left join {{ ref('files')}} f
+    fsr_length_adjustment,
+    u.user_key,
+    w.hour_key,
+    t.trial_key,
+    f.file_key,
+    current_timestamp() as lastupdated
+from {{ ref('silver_fact')}} e
+join {{ ref('files')}} f
     on f.file_path = e.file_path
-left join {{ ref('gold_eaton_user')}} d
-    on d.user = e.user
-    and d.week = e.week
+join {{ ref('gold_user')}} u
+    on u.user = e.user
+join {{ ref('gold_hour')}} h
+    on h.week = e.week
+    and date_trunc('hour', h.user_timestamp) = date_trunc('hour', e.user_timestamp)
+join {{ ref('gold_trial')}} t
+    on t.trial_type = e.trial_type
