@@ -4,10 +4,11 @@ eaton_hourly as (
 *,
     date_trunc('hour', user_timestamp)
         as truncatedhour
-    from {{ ref('silver_eaton') }}
+    from {{ ref('gold_eaton_stage') }}
 )
 
 select
+    select
     trial_type as trialtype,
     count(1) as totalcapturedsec,
     CAST(SUM(activity_sec) AS NUMERIC) AS totalactivitysec,
@@ -28,6 +29,21 @@ select
     SUM(total_misuse_flag) AS totalmisuseevent,
     week as week,
     TRIM(user) as user,
-    truncatedhour
-from eaton_hourly
+    truncatedhour,
+    upper(user) as user,
+    try_cast(substring(user, len(user)-1, len(user)) as int) as usernum,
+    week,
+    try_cast(substring(week, len(week)-1, len(week)) as int) as weeknum,
+    concat(upper(user), '.', week) as userweek,
+    (
+        datediff(
+            day,
+            max(cast(truncatedhour as date)) over (partition by week, user),
+            min(cast(truncatedhour as date)) over (partition by week, user)
+        )
+    ) as daynum,
+    truncatedhour,
+    file_key
+from {{ ref('gold_eaton_stage') }}
 group by truncatedhour, trial_type, user, week
+
