@@ -1,3 +1,17 @@
+WITH OBT_week AS (
+SELECT  h.*, 
+        u.*, 
+        t.*,
+        f.*
+FROM {{ref('gold_fact_stage')}} f
+JOIN {{ref('gold_user')}} u
+    ON u.user_key = f.user_key
+JOIN {{ref('gold_hour')}} h
+    ON h.hour_key = f.hour_key
+JOIN {{ref('gold_trial')}} t
+    ON t.trial_key = f.trial_key
+)
+
 
 select
     count(1) as totalcapturedsec,
@@ -16,12 +30,12 @@ select
     SUM(left_misuse_flag) AS leftmisuseevent,
     SUM(right_misuse_flag) AS rightmisuseevent,
     SUM(hip_misuse_flag) AS hipmisuseevent,
-    SUM(total_misuse_flag) AS totalmisuseevent,
-    user_key,
-    device_key,
-    hour_key,
-    trial_key,
-    current_timestamp() AS lastupdated
-from {{ ref('gold_fact_stage')}} e
-group by hour_key, trial_key, user_key, device_key
-
+    SUM(total_misuse_flag) AS totalmisuseevent,                                       
+    user,
+    week,
+    week_num,
+    trial_type
+FROM OBT_week
+WHERE user = 'U1'
+GROUP BY week, user, trial_type, week_num
+ORDER BY week, user, trial_type, week_num

@@ -21,9 +21,10 @@ select
     right_adc_change,
     fsr_length_adjustment,
     u.user_key,
-    w.hour_key,
+    h.hour_key,
     t.trial_key,
     f.file_key,
+    d.device_key,
     current_timestamp() as lastupdated
 from {{ ref('silver_fact')}} e
 join {{ ref('files')}} f
@@ -32,6 +33,8 @@ join {{ ref('gold_user')}} u
     on u.user = e.user
 join {{ ref('gold_hour')}} h
     on h.week = e.week
-    and date_trunc('hour', h.user_timestamp) = date_trunc('hour', e.user_timestamp)
+    and h.hour = date_trunc('hour', e.user_timestamp)
 join {{ ref('gold_trial')}} t
     on t.trial_type = e.trial_type
+join {{ ref('gold_device')}} d 
+    on d.device = e.device

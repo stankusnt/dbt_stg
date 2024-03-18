@@ -12,20 +12,24 @@ SELECT
     -- Metrics definition
     CASE 
         WHEN left_vibration_trigger = 3 AND accelerometer_motion_flag = 1 THEN 1
-        ELSE 0 
-        END AS left_misuse_flag,
+            WHEN left_vibration_trigger IS NOT NULL THEN 0
+            ELSE NULL
+    END AS left_misuse_flag,
     CASE 
         WHEN right_vibration_trigger = 3 AND accelerometer_motion_flag = 1 THEN 1
-        ELSE 0 
-        END AS right_misuse_flag,
+            WHEN right_vibration_trigger IS NOT NULL THEN 0
+            ELSE NULL
+    END AS right_misuse_flag,
     CASE 
         WHEN hip_vibration_trigger = 3 AND accelerometer_motion_flag = 1 THEN 1
-        ELSE 0 
-        END AS hip_misuse_flag,
+            WHEN hip_vibration_trigger IS NOT NULL THEN 0
+            ELSE NULL
+    END AS hip_misuse_flag,
     CASE 
         WHEN (left_vibration_trigger = 3 OR right_vibration_trigger = 3 OR hip_vibration_trigger = 3) AND accelerometer_motion_flag = 1 THEN 1
-        ELSE 0 
-        END AS total_misuse_flag,
+            WHEN COALESCE(left_vibration_trigger, right_vibration_trigger, hip_vibration_trigger) IS NOT NULL THEN 0
+            ELSE NULL
+    END AS total_misuse_flag,
     accelerometer_motion_flag AS activity_sec,
     left_lbf,
     right_lbf,
