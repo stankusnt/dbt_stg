@@ -1,4 +1,12 @@
 SELECT 
+    self_reported_physical_activity_per_week_hrs,
+    satisfied_with_activity,
+    fear_of_falling,
+    fall_history,
+    length_of_time_using_walker,
+    likes_using_walker,
+    received_walker_training,
+    description_of_changes_in_DLa,
     would_purchase_stg,
     how_much_would_you_pay,
     would_recommend_stg,

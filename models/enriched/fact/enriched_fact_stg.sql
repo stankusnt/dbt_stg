@@ -32,11 +32,19 @@ select
     end_successful_tandem_balance_positions,
     end_functional_reach,
     -- Survey metrics
+    self_reported_physical_activity_per_week_hrs,
+    satisfied_with_activity,
+    fear_of_falling,
+    fall_history,
+    length_of_time_using_walker,
+    likes_using_walker,
+    received_walker_training,
+    description_of_changes_in_DLa,
     would_purchase_stg,
     how_much_would_you_pay,
     would_recommend_stg,
     stg_helped_learn_use_walker_better,
-    
+
     u.user_key,
     h.hour_key,
     t.trial_key,
@@ -53,8 +61,8 @@ join {{ ref('enriched_trial')}} t
 join {{ ref('enriched_device')}} d 
     on d.device = e.device
 left join {{ ref('curated_fact_physical_therapy_evals')}} pt
-    on pt.user_key = e.user_key
-    and pt.device_key = e.device_key
+    on pt.user_key = u.user_key
+    and pt.device_key = d.device_key
 left join {{ ref('curated_fact_user_surveys')}} us
-    on us.user_key = e.user_key
-    and us.device_key = e.device_key
+    on us.user_key = u.user_key
+    and us.device_key = d.device_key
