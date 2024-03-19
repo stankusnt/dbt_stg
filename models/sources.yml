@@ -3,6 +3,9 @@ version: 2
 sources:
   - name: dev_wh  
     database: dev 
-    schema: stage 
+    schema: integrated 
     tables:
-      - name: eaton_stage
+      - name: stg
+      - name: physical_therapy_evals
+      - name: user_surveys
+      - name: files

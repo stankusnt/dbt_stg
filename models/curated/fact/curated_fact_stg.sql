@@ -8,7 +8,6 @@ SELECT
     CAST(unix_timestamp(timestamp) -- Convert timestamp to sec from ms
         - MIN(unix_timestamp(timestamp)) OVER (PARTITION BY user, week) -- Subtract by min timestamp over user/week
     AS timestamp) AS session_timestamp,
-    current_timestamp() as lastupdated,
     -- Metrics definition
     CASE 
         WHEN left_vibration_trigger = 3 AND accelerometer_motion_flag = 1 THEN 1
@@ -52,5 +51,6 @@ SELECT
     file,
     user,
     fsr_length_adjustment,
-    trial_type
-FROM {{ source('dev_wh', 'eaton_stage') }} base
+    trial_type,
+    current_timestamp() AS lastupdated
+FROM {{ source('dev_wh', 'stg') }} base
