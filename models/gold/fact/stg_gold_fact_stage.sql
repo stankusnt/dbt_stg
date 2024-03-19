@@ -26,7 +26,7 @@ select
     f.file_key,
     d.device_key,
     current_timestamp() as lastupdated
-from {{ ref('silver_fact')}} e
+from {{ ref('stg_silver_fact')}} e
 join {{ ref('files')}} f
     on f.file_path = e.file_path
 join {{ ref('gold_user')}} u

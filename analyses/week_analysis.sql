@@ -3,7 +3,7 @@ SELECT  h.*,
         u.*, 
         t.*,
         f.*
-FROM {{ref('gold_fact_stage')}} f
+FROM {{ref('stg_gold_fact_stage')}} f
 JOIN {{ref('gold_user')}} u
     ON u.user_key = f.user_key
 JOIN {{ref('gold_hour')}} h

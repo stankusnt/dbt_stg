@@ -22,6 +22,6 @@ select
     hour_key,
     trial_key,
     current_timestamp() AS lastupdated
-from {{ ref('gold_fact_stage')}} e
+from {{ ref('stg_gold_fact_stage')}} e
 group by hour_key, trial_key, user_key, device_key
 
