@@ -4,7 +4,7 @@ default:
     dev:
       type: databricks
       catalog: dev
-      schema: 
+      schema: dbt-nstankus
       host: adb-8971084968148128.8.azuredatabricks.net # Required
       http_path: /sql/1.0/warehouses/40d82b6d0c6086e5 # Required
       token: dapi0d4079deec5b76663e09457c38f5ae1b-3 # Required Personal Access Token (PAT) if using token-based authentication
