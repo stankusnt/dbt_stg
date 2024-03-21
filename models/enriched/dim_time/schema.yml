@@ -1,0 +1,13 @@
+version: 2
+
+
+models:
+  - name: enriched_hour
+    description: This table has all information about a date/time of use.
+
+    columns:
+      - name: hour_id
+        description: This is a unique identifier for an hour.
+        tests:
+          - unique
+          - not_null

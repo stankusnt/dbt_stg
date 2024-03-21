@@ -37,8 +37,9 @@ clean-targets:         # directories to be removed by `dbt clean`
 
 models:
   stridetechgo:
-    # Applies to all files under models/example/
-    example:
+    curated:
       +materialized: table
-    silver:
+      +schema: curated
+    enriched:
       +materialized: table
+      +schema: enriched

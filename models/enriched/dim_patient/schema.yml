@@ -1,0 +1,13 @@
+version: 2
+
+
+models:
+  - name: enriched_user
+    description: This table has all information about a user.
+
+    columns:
+      - name: user_id
+        description: This is a unique identifier for a user.
+        tests:
+          - unique
+          - not_null
