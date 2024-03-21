@@ -45,10 +45,10 @@ select
     would_recommend_stg,
     stg_helped_learn_use_walker_better,
 
-    u.user_key,
-    h.hour_key,
-    t.trial_key,
-    d.device_key,
+    u.user_id,
+    h.hour_id,
+    t.trial_id,
+    d.device_id,
     current_timestamp() as lastupdated
 from {{ ref('curated_fact_stg')}} e
 join {{ ref('enriched_user')}} u
@@ -61,8 +61,8 @@ join {{ ref('enriched_trial')}} t
 join {{ ref('enriched_device')}} d 
     on d.device = e.device
 left join {{ ref('curated_fact_physical_therapy_evals')}} pt
-    on pt.user_key = u.user_key
-    and pt.device_key = d.device_key
+    on pt.user_id = u.user_id
+    and pt.device_id = d.device_id
 left join {{ ref('curated_fact_user_surveys')}} us
-    on us.user_key = u.user_key
-    and us.device_key = d.device_key
+    on us.user_id = u.user_id
+    and us.device_id = d.device_id

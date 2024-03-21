@@ -41,10 +41,10 @@ select
     MAX(how_much_would_you_pay) AS how_much_would_you_pay,
     MAX(would_recommend_stg) AS would_recommend_stg,
     MAX(stg_helped_learn_use_walker_better) AS stg_helped_learn_use_walker_better,
-    user_key,
-    device_key,
-    hour_key,
-    trial_key,
+    user_id,
+    device_id,
+    hour_id,
+    trial_id,
     current_timestamp() AS lastupdated
 from {{ ref('enriched_fact_stg')}} e
 group by hour_key, trial_key, user_key, device_key

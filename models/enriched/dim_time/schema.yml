@@ -2,22 +2,12 @@ version: 2
 
 
 models:
-  - name: enriched_date
+  - name: enriched_hour
     description: This table has all information about a date/time of use.
 
     columns:
-      - name: date_id
+      - name: hour_id
         description: This is a unique identifier for an hour.
-        tests:
-          - unique
-          - not_null
-
-  - name: enriched_clock
-    description: This table has all information about time of day of use.
-
-    columns:
-      - name: clock_id
-        description: This is a unique identifier for second.
         tests:
           - unique
           - not_null
