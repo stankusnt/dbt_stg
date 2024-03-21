@@ -8,11 +8,11 @@ SELECT DISTINCT
     s.walker_trainer,
     s.walker_purchased_from,
     s.walker_manufacturer,
-    md5(COALESCE(f.user, pt.user, s.user)) AS user_key,
+    md5(COALESCE(f.user, pt.user, s.user)) AS user_id,
     current_timestamp() AS lastupdated
 FROM {{ ref('curated_fact_stg')}} f
-FULL JOIN {{ source('dev_wh', 'physical_therapy_evals')}} pt
+LEFT JOIN {{ source('dev_wh', 'physical_therapy_evals')}} pt
     ON pt.user = f.user
-FULL JOIN {{ source('dev_wh', 'user_surveys')}} s
+LEFT JOIN {{ source('dev_wh', 'user_surveys')}} s
     ON s.user = f.user
 WHERE COALESCE(f.user, pt.user, s.user) IS NOT NULL

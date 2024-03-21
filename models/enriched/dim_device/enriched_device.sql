@@ -1,6 +1,6 @@
 SELECT 
     COALESCE(f.device, pt.device, s.device) AS device,
-    md5(COALESCE(f.device, pt.device, s.device)) AS device_key,
+    md5(COALESCE(f.device, pt.device, s.device)) AS device_id,
     current_timestamp() AS lastupdated
 FROM {{ ref('curated_fact_stg')}} f
 FULL JOIN {{ source('dev_wh', 'physical_therapy_evals')}} pt

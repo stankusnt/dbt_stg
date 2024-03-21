@@ -1,0 +1,13 @@
+version: 2
+
+
+models:
+  - name: enriched_device
+    description: This table has all information about a device.
+
+    columns:
+      - name: device_id
+        description: This is a unique identifier for a device.
+        tests:
+          - unique
+          - not_null

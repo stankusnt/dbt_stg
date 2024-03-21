@@ -5,11 +5,11 @@ SELECT  h.*,
         f.*
 FROM {{ref('enriched_fact_stg')}} f
 JOIN {{ref('enriched_user')}} u
-    ON u.user_key = f.user_key
-JOIN {{ref('enriched_hour')}} h
-    ON h.hour_key = f.hour_key
+    ON u.user_id = f.user_id
+JOIN {{ref('enriched_date')}} d
+    ON d.date_id = f.date_id
 JOIN {{ref('enriched_trial')}} t
-    ON t.trial_key = f.trial_key
+    ON t.trial_id = f.trial_id
 )
 
 

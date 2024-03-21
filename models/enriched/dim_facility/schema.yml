@@ -1,0 +1,13 @@
+version: 2
+
+
+models:
+  - name: enriched_facility
+    description: This table has all information about a facility.
+
+    columns:
+      - name: facility_id
+        description: This is a unique identifier for a facility.
+        tests:
+          - unique
+          - not_null

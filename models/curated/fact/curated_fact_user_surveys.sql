@@ -11,9 +11,9 @@ SELECT
     how_much_would_you_pay,
     would_recommend_stg,
     stg_helped_learn_use_walker_better,
-    d.device_key,
-    u.user_key,
-    fac.facility_key,
+    d.device_id,
+    u.user_id,
+    fac.facility_id,
     current_timestamp() AS lastupdated
 FROM {{ source('dev_wh', 'user_surveys') }} us
 left join {{ ref('enriched_device')}} d

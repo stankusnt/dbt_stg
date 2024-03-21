@@ -6,7 +6,7 @@ models:
     description: This table has all information about a user.
 
     columns:
-      - name: user_key
+      - name: user_id
         description: This is a unique identifier for a user.
         tests:
           - unique

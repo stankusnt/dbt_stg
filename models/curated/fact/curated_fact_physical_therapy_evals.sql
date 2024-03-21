@@ -11,9 +11,9 @@ SELECT
     end_tandem_balance_score_total,
     end_successful_tandem_balance_positions,
     end_functional_reach,
-    d.device_key,
-    u.user_key,
-    fac.facility_key,
+    d.device_id,
+    u.user_id,
+    fac.facility_id,
     current_timestamp() AS lastupdated
 from {{ source('dev_wh', 'physical_therapy_evals') }} pt
 left join {{ ref('enriched_device')}} d

@@ -1,0 +1,13 @@
+version: 2
+
+
+models:
+  - name: enriched_trial
+    description: This table has all information about a trial.
+
+    columns:
+      - name: trial_id
+        description: This is a unique identifier for a trial.
+        tests:
+          - unique
+          - not_null
