@@ -44,7 +44,6 @@ select
     how_much_would_you_pay,
     would_recommend_stg,
     stg_helped_learn_use_walker_better,
-
     u.user_id,
     h.hour_id,
     t.trial_id,
