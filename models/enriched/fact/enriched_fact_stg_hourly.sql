@@ -47,5 +47,5 @@ select
     trial_id,
     current_timestamp() AS lastupdated
 from {{ ref('enriched_fact_stg')}} e
-group by hour_key, trial_key, user_key, device_key
+group by hour_id, trial_id, user_id, device_id
 
