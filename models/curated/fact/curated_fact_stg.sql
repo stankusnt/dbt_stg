@@ -30,8 +30,17 @@ SELECT
             ELSE NULL
     END AS total_misuse_flag,
     accelerometer_motion_flag AS activity_sec,
-    left_lbf,
-    right_lbf,
+    -- Imposing range constraints on lbf
+    CASE 
+        WHEN left_lbf < 0 THEN 0
+        WHEN left_lbf > 100 THEN 100
+        ELSE left_lbf
+    END AS left_lbf,
+    CASE 
+        WHEN right_lbf < 0 THEN 0
+        WHEN right_lbf > 100 THEN 100
+        ELSE right_lbf
+    END AS right_lbf,
     left_adc,
     right_adc,
     hip_distance,
@@ -52,5 +61,6 @@ SELECT
     user,
     fsr_length_adjustment,
     trial_type,
-    current_timestamp() AS lastupdated
+    run_id,
+    extraction_time as lastupdated
 FROM {{ source('dev_wh', 'stg') }} base

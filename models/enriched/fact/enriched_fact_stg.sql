@@ -1,4 +1,6 @@
 
+
+
 select
     left_misuse_flag,
     right_misuse_flag,
@@ -48,7 +50,7 @@ select
     h.hour_id,
     t.trial_id,
     d.device_id,
-    current_timestamp() as lastupdated
+    e.lastupdated as lastupdated
 from {{ ref('curated_fact_stg')}} e
 join {{ ref('enriched_user')}} u
     on u.user = e.user
@@ -65,3 +67,5 @@ left join {{ ref('curated_fact_physical_therapy_evals')}} pt
 left join {{ ref('curated_fact_user_surveys')}} us
     on us.user_id = u.user_id
     and us.device_id = d.device_id
+-- filter out any inactivity
+where e.activity_sec > 0
