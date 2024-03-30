@@ -55,3 +55,23 @@ FROM OBT_week
 WHERE user = 'U1'
 GROUP BY week, user, trial_type, week_num
 ORDER BY week, user, trial_type, week_num
+
+
+SELECT 
+    ROUND(AVG(force_threshold),0) AS average_force_thresh,
+    ROUND(AVG(hip_distance_threshold),0) AS hip_distance_thresh,
+    ROUND(AVG((left_lbf + right_lbf)/2),0) AS average_total_force,
+    ROUND(AVG(hip_distance),0) AS average_hip_distance,
+    week_num
+FROM {{ref('enriched_fact_stg')}} s
+JOIN {{ref('enriched_hour')}} h
+    ON s.hour_id = h.hour_id
+WHERE 
+    left_lbf > 0
+AND right_lbf > 0
+GROUP BY week_num
+ORDER BY week_num ASC
+
+
+    force_threshold,
+    hip_distance_threshold,
