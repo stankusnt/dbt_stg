@@ -5,7 +5,7 @@ sources:
     database: dev
     schema: integrated 
     tables:
-      - name: stg
+      - name: stg_nodes
       - name: physical_therapy_evals
       - name: user_surveys
       - name: files

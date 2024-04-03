@@ -63,4 +63,4 @@ SELECT
     trial_type,
     run_id,
     extraction_time as lastupdated
-FROM {{ source('dev_wh', 'stg') }} base
+FROM {{ source('dev_wh', 'stg_nodes') }} base
