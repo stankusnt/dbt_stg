@@ -6,7 +6,7 @@ select
     right_misuse_flag,
     hip_misuse_flag,
     total_misuse_flag,
-    accelerometer_motion_flag AS activity_sec,
+    activity_sec,
     left_lbf,
     right_lbf,
     left_adc,
@@ -56,7 +56,7 @@ join {{ ref('enriched_user')}} u
     on u.user = e.user
 join {{ ref('enriched_hour')}} h
     on h.week = e.week
-    and h.hour = date_trunc('hour', e.user_timestamp)
+    and h.hour = date_trunc('hour', e.user_time)
 join {{ ref('enriched_trial')}} t
     on t.trial_type = e.trial_type
 join {{ ref('enriched_device')}} d 

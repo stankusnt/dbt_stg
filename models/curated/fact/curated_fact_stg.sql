@@ -1,13 +1,13 @@
 SELECT 
     -- Timestamp extrapolation
     CAST(from_unixtime( -- Convert from unixtime back to UTC
-        (unix_timestamp(timestamp) -- Convert timestamp to sec from ms
-        - MIN(unix_timestamp(timestamp)) OVER (PARTITION BY user, week)) -- Subtract by min timestamp over user/week
+        (unix_timestamp(device_time) -- Convert timestamp to sec from ms
+        - MIN(unix_timestamp(device_time)) OVER (PARTITION BY user, week)) -- Subtract by min timestamp over user/week
         + start_time)  -- Add start time for user/week 
-    AS timestamp) AS user_timestamp, 
-    CAST(unix_timestamp(timestamp) -- Convert timestamp to sec from ms
-        - MIN(unix_timestamp(timestamp)) OVER (PARTITION BY user, week) -- Subtract by min timestamp over user/week
-    AS timestamp) AS session_timestamp,
+    AS timestamp) AS user_time, 
+    CAST(unix_timestamp(device_time) -- Convert timestamp to sec from ms
+        - MIN(unix_timestamp(device_time)) OVER (PARTITION BY user, week) -- Subtract by min timestamp over user/week
+    AS timestamp) AS session_time,
     -- Metrics definition
     CASE 
         WHEN left_vibration_trigger = 3 AND accelerometer_motion_flag = 1 THEN 1
@@ -29,7 +29,7 @@ SELECT
             WHEN COALESCE(left_vibration_trigger, right_vibration_trigger, hip_vibration_trigger) IS NOT NULL THEN 0
             ELSE NULL
     END AS total_misuse_flag,
-    accelerometer_motion_flag AS activity_sec,
+    activity_flag AS activity_sec,
     -- Imposing range constraints on lbf
     CASE 
         WHEN left_lbf < 0 THEN 0
@@ -63,4 +63,4 @@ SELECT
     trial_type,
     run_id,
     extraction_time as lastupdated
-FROM {{ source('dev_wh', 'stg') }} base
+FROM {{ source('dev_wh', 'stg_nodes') }} base

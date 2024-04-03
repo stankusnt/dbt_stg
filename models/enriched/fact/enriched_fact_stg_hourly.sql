@@ -45,6 +45,12 @@ select
     device_id,
     hour_id,
     trial_id,
+    TRY_CAST(AVG(left_adc) AS NUMERIC) AS avg_left_adc,
+    MAX(left_adc) AS max_left_adc,
+    MIN(left_adc) AS min_left_adc,
+    TRY_CAST(AVG(right_adc) AS NUMERIC) AS avg_right_adc,
+    MAX(right_adc) AS max_right_adc,
+    MIN(right_adc) AS min_right_adc,
     MAX(lastupdated) AS lastupdated
 from {{ ref('enriched_fact_stg')}}
 group by hour_id, trial_id, user_id, device_id
