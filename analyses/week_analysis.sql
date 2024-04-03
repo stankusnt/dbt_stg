@@ -73,5 +73,10 @@ GROUP BY week_num
 ORDER BY week_num ASC
 
 
+SELECT user, week, COUNT(*), avg(left_lbf)
+FROM {{ref('curated_fact_stg')}}
+where activity_flag > 0
+group by user,week
+
     force_threshold,
     hip_distance_threshold,
