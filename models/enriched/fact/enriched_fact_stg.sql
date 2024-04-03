@@ -56,7 +56,7 @@ join {{ ref('enriched_user')}} u
     on u.user = e.user
 join {{ ref('enriched_hour')}} h
     on h.week = e.week
-    and h.hour = date_trunc('hour', e.user_timestamp)
+    and h.hour = date_trunc('hour', e.user_time)
 join {{ ref('enriched_trial')}} t
     on t.trial_type = e.trial_type
 join {{ ref('enriched_device')}} d 

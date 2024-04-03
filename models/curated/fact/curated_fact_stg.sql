@@ -1,13 +1,13 @@
 SELECT 
     -- Timestamp extrapolation
     CAST(from_unixtime( -- Convert from unixtime back to UTC
-        (unix_timestamp(timestamp) -- Convert timestamp to sec from ms
-        - MIN(unix_timestamp(timestamp)) OVER (PARTITION BY user, week)) -- Subtract by min timestamp over user/week
+        (unix_timestamp(device_time) -- Convert timestamp to sec from ms
+        - MIN(unix_timestamp(device_time)) OVER (PARTITION BY user, week)) -- Subtract by min timestamp over user/week
         + start_time)  -- Add start time for user/week 
-    AS timestamp) AS user_timestamp, 
-    CAST(unix_timestamp(timestamp) -- Convert timestamp to sec from ms
-        - MIN(unix_timestamp(timestamp)) OVER (PARTITION BY user, week) -- Subtract by min timestamp over user/week
-    AS timestamp) AS session_timestamp,
+    AS timestamp) AS user_time, 
+    CAST(unix_timestamp(device_time) -- Convert timestamp to sec from ms
+        - MIN(unix_timestamp(device_time)) OVER (PARTITION BY user, week) -- Subtract by min timestamp over user/week
+    AS timestamp) AS session_time,
     -- Metrics definition
     CASE 
         WHEN left_vibration_trigger = 3 AND accelerometer_motion_flag = 1 THEN 1
