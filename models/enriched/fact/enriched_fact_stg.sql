@@ -6,7 +6,7 @@ select
     right_misuse_flag,
     hip_misuse_flag,
     total_misuse_flag,
-    accelerometer_motion_flag AS activity_sec,
+    activity_sec,
     left_lbf,
     right_lbf,
     left_adc,
