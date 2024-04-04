@@ -52,7 +52,7 @@ select
     TRY_CAST(AVG(right_adc) AS NUMERIC) AS avg_right_adc,
     MAX(right_adc) AS max_right_adc,
     MIN(right_adc) AS min_right_adc,
-    extraction_time AS lastupdated
+    MAX(extraction_time) AS lastupdated
 from {{ ref('enriched_fact_stg')}}
 group by hour_id, trial_id, user_id, device_id
 

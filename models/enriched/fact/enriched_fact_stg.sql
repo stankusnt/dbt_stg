@@ -50,7 +50,7 @@ select
     h.hour_id,
     t.trial_id,
     d.device_id,
-    e.extraction_time as lastupdated
+    e.extraction_time 
 from {{ ref('curated_fact_stg')}} e
 join {{ ref('enriched_user')}} u
     on u.user = e.user
