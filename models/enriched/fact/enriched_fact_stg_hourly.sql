@@ -55,4 +55,3 @@ select
     MAX(extraction_time) AS lastupdated
 from {{ ref('enriched_fact_stg')}}
 group by hour_id, trial_id, user_id, device_id
-
