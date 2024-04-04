@@ -67,5 +67,5 @@ left join {{ ref('curated_fact_physical_therapy_evals')}} pt
 left join {{ ref('curated_fact_user_surveys')}} us
     on us.user_id = u.user_id
     and us.device_id = d.device_id
--- filter out any inactivity
-where e.activity_flag > 0
+-- Flag for inactivity
+and e.activity_flag > 0
