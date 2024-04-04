@@ -6,7 +6,7 @@ select
     right_misuse_flag,
     hip_misuse_flag,
     total_misuse_flag,
-    activity_sec,
+    e.activity_flag AS activity_sec,
     left_lbf,
     right_lbf,
     left_adc,
@@ -50,7 +50,7 @@ select
     h.hour_id,
     t.trial_id,
     d.device_id,
-    e.lastupdated as lastupdated
+    e.extraction_time 
 from {{ ref('curated_fact_stg')}} e
 join {{ ref('enriched_user')}} u
     on u.user = e.user
@@ -67,5 +67,5 @@ left join {{ ref('curated_fact_physical_therapy_evals')}} pt
 left join {{ ref('curated_fact_user_surveys')}} us
     on us.user_id = u.user_id
     and us.device_id = d.device_id
--- filter out any inactivity
-where e.activity_sec > 0
+-- Flag for inactivity
+and e.activity_flag > 0

@@ -8,11 +8,11 @@ select
     TRY_CAST(AVG(right_lbf) AS NUMERIC) AS avg_right,
     MAX(right_lbf) AS max_right,
     MIN(right_lbf) AS min_right,
-    AVG(force_threshold) AS force_thresh,
-    AVG(hip_distance) AS avg_hip_distance,
+    CAST(AVG(force_threshold) AS DECIMAL(4,2)) AS force_thresh,
+    CAST(AVG(hip_distance) AS DECIMAL(4,2)) AS avg_hip_distance,
     MAX(hip_distance) AS max_hip_distance,
     MIN(hip_distance) AS min_hip_distance,
-    AVG(hip_distance_threshold) AS hip_thresh,
+    CAST(AVG(hip_distance_threshold) AS DECIMAL(4,2)) AS hip_thresh,
     SUM(left_misuse_flag) AS left_misuse_event,
     SUM(right_misuse_flag) AS right_misuse_event,
     SUM(hip_misuse_flag) AS hip_misuse_event,
@@ -45,13 +45,13 @@ select
     device_id,
     hour_id,
     trial_id,
+    -- Adding adc values
     TRY_CAST(AVG(left_adc) AS NUMERIC) AS avg_left_adc,
     MAX(left_adc) AS max_left_adc,
     MIN(left_adc) AS min_left_adc,
     TRY_CAST(AVG(right_adc) AS NUMERIC) AS avg_right_adc,
     MAX(right_adc) AS max_right_adc,
     MIN(right_adc) AS min_right_adc,
-    MAX(lastupdated) AS lastupdated
+    MAX(extraction_time) AS lastupdated
 from {{ ref('enriched_fact_stg')}}
 group by hour_id, trial_id, user_id, device_id
-

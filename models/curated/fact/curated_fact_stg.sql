@@ -29,7 +29,7 @@ SELECT
             WHEN COALESCE(left_vibration_trigger, right_vibration_trigger, hip_vibration_trigger) IS NOT NULL THEN 0
             ELSE NULL
     END AS total_misuse_flag,
-    activity_flag AS activity_sec,
+    activity_flag,
     -- Imposing range constraints on lbf
     CASE 
         WHEN left_lbf < 0 THEN 0
@@ -62,5 +62,5 @@ SELECT
     fsr_length_adjustment,
     trial_type,
     run_id,
-    extraction_time as lastupdated
+    extraction_time as extraction_time
 FROM {{ source('dev_wh', 'stg_nodes') }} base
